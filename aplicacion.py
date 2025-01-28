@@ -28,12 +28,18 @@ def main():
     image = Image.open(uploaded_file)
     st.image(image, caption = "imagen subida")
 
-    preprocessed_image = preprocess_image(image)
+    preprocessed_image = preprocess_image(image) # (1,28,28)
     
     st.image(preprocessed_image, caption = "imagen subida")
     
     if st.button("Clasificar imagen"):
       st.markdown("Imagen clasificada")
+      model = load_model()
+
+      prediction = model.predict(preprocessed_image.reshape(1,-1)) #(1,784)
+      st.markdown(f"La imagen fue clasificada como: {prediction}")
+      
+
   
 
 if __name__ == "__main__":
