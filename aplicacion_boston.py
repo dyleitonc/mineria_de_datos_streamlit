@@ -30,7 +30,7 @@ st.markdown(
 
 # Cargar la imagen
 image = Image.open('casa.jpg')  # Asegúrate de tener una imagen llamada 'casa.jpg'
-st.image(image, use_column_width=True)
+st.image(image, use_container_width =True)
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
