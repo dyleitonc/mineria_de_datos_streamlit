@@ -87,6 +87,7 @@ if st.button('🚀 Predecir Valor de la Casa'):
         unsafe_allow_html=True
     )
     
+    
 # Barra lateral con información adicional
 with st.sidebar:
     st.markdown("### Información Adicional")
@@ -106,6 +107,3 @@ with st.sidebar:
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
     # Mostrar los hiperparámetros en Streamlit
-st.markdown("### Hiperparámetros del modelo cargado")
-st.write(loaded_model.get_params())
-
