@@ -106,21 +106,24 @@ with st.sidebar:
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
 
-    # Sección expandible con hiperparámetros
-    with st.expander("Ver hiperparámetros del modelo cargado"):
-        hiperparametros_texto = """
-        **Hiperparámetros del escalador (StandardScaler):**
-        - `scaler__copy: True`
-        - `scaler__with_mean: True`
-        - `scaler__with_std: True`
+    # Explicación de los hiperparámetros y sus valores
+    hiperparametros = model.get_params()
 
-        **Hiperparámetros del regresor (KernelRidge):**
-        - `reg__alpha: 0.1`
-        - `reg__coef0: 1`
-        - `reg__degree: 3`
-        - `reg__gamma: None`
-        - `reg__kernel: rbf`
-        - `reg__kernel_params: None`
-        """
-        st.markdown(hiperparametros_texto)
+    descripcion_hiperparametros = f"""
+    ### Hiperparámetros del Modelo:
+    
+    **Escalador (StandardScaler):**
+    - **`scaler__copy`**: {hiperparametros['steps'][0][1].get_params()['copy']}
+    - **`scaler__with_mean`**: {hiperparametros['steps'][0][1].get_params()['with_mean']}
+    - **`scaler__with_std`**: {hiperparametros['steps'][0][1].get_params()['with_std']}
+    
+    **Regresor (KernelRidge):**
+    - **`reg__alpha`**: {hiperparametros['steps'][1][1].get_params()['alpha']}
+    - **`reg__coef0`**: {hiperparametros['steps'][1][1].get_params()['coef0']}
+    - **`reg__degree`**: {hiperparametros['steps'][1][1].get_params()['degree']}
+    - **`reg__kernel`**: {hiperparametros['steps'][1][1].get_params()['kernel']}
+    """
 
+    # Mostrar la descripción con los valores de los hiperparámetros
+    with st.expander("Ver hiperparámetros del modelo"):
+        st.markdown(descripcion_hiperparametros)
