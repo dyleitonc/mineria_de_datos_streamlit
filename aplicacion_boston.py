@@ -87,6 +87,17 @@ if st.button('🚀 Predecir Valor de la Casa'):
         unsafe_allow_html=True
     )
 
+    # Mostrar los hiperparámetros del modelo cargado
+    st.markdown("### Hiperparámetros del modelo cargado")
+    scaler_params = model.named_steps['scaler'].get_params()
+    regressor_params = model.named_steps['reg'].get_params()
+
+    st.write("Hiperparámetros del escalador:")
+    st.write(scaler_params)
+
+    st.write("Hiperparámetros del regresor:")
+    st.write(regressor_params)
+    
 # Barra lateral con información adicional
 with st.sidebar:
     st.markdown("### Información Adicional")
