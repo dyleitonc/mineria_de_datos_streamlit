@@ -103,6 +103,27 @@ with st.sidebar:
         - **RAD**: Índice de accesibilidad a autopistas.
         - **TAX**: Tasa de impuesto sobre la propiedad.
         - **PTRATIO**: Relación alumno-maestro.
+
+# Hiperparámetros como texto
+hiperparametros_texto = """
+**Hiperparámetros del escalador (StandardScaler):**
+- `scaler__copy: True`
+- `scaler__with_mean: True`
+- `scaler__with_std: True`
+
+**Hiperparámetros del regresor (KernelRidge):**
+- `reg__alpha: 0.1`
+- `reg__coef0: 1`
+- `reg__degree: 3`
+- `reg__gamma: None`
+- `reg__kernel: rbf`
+- `reg__kernel_params: None`
+"""
+
+# Sección que se puede expandir
+with st.expander("Ver hiperparámetros del modelo cargado"):
+    st.markdown(hiperparametros_texto)
+
         - **B**: Proporción de personas de ascendencia afroamericana.
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
