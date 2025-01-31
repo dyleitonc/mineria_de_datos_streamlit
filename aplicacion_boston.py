@@ -106,6 +106,7 @@ with st.sidebar:
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
 
+
     # Explicación de los hiperparámetros y sus valores
     hiperparametros = model.get_params()
 
@@ -113,15 +114,22 @@ with st.sidebar:
     ### Hiperparámetros del Modelo:
     
     **Escalador (StandardScaler):**
-    - **`scaler__copy`**: {hiperparametros['steps'][0][1].get_params()['copy']}
-    - **`scaler__with_mean`**: {hiperparametros['steps'][0][1].get_params()['with_mean']}
-    - **`scaler__with_std`**: {hiperparametros['steps'][0][1].get_params()['with_std']}
-    
+    - **`scaler__copy`**: {hiperparametros['steps'][0][1].get_params()['copy']}  
+      Esto asegura que no se modifique el conjunto de datos original durante el escalado.
+    - **`scaler__with_mean`**: {hiperparametros['steps'][0][1].get_params()['with_mean']}  
+      Indica si se debe centrar la variable al restarle la media (es útil para normalizar).
+    - **`scaler__with_std`**: {hiperparametros['steps'][0][1].get_params()['with_std']}  
+      Especifica si se debe dividir por la desviación estándar, lo que permite que los datos estén escalados.
+
     **Regresor (KernelRidge):**
-    - **`reg__alpha`**: {hiperparametros['steps'][1][1].get_params()['alpha']}
-    - **`reg__coef0`**: {hiperparametros['steps'][1][1].get_params()['coef0']}
-    - **`reg__degree`**: {hiperparametros['steps'][1][1].get_params()['degree']}
-    - **`reg__kernel`**: {hiperparametros['steps'][1][1].get_params()['kernel']}
+    - **`reg__alpha`**: {hiperparametros['steps'][1][1].get_params()['alpha']}  
+      Es el parámetro de regularización que controla la complejidad del modelo: valores más altos previenen sobreajuste.
+    - **`reg__coef0`**: {hiperparametros['steps'][1][1].get_params()['coef0']}  
+      Este parámetro ajusta la influencia del término de sesgo en el modelo.
+    - **`reg__degree`**: {hiperparametros['steps'][1][1].get_params()['degree']}  
+      Define el grado del polinomio para el kernel, afectando la flexibilidad del modelo.
+    - **`reg__kernel`**: {hiperparametros['steps'][1][1].get_params()['kernel']}  
+      El kernel 'rbf' es utilizado para medir la similitud entre los puntos de datos en el espacio de características.
     """
 
     # Mostrar la descripción con los valores de los hiperparámetros
