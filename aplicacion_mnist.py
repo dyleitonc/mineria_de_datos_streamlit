@@ -1,98 +1,113 @@
 import streamlit as st
+from PIL import Image
+import os
 import numpy as np
-import pandas as pd
-from sklearn import datasets
-from tensorflow.keras.datasets import mnist
 import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten
-from tensorflow.keras.utils import to_categorical
-import matplotlib.pyplot as plt
+from tensorflow.keras.preprocessing.image import img_to_array
+import gzip
+import pickle
 
-# Cargar y preprocesar los datos MNIST
-def load_data():
-    (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
-    
-    # Normalizar las imágenes
-    train_images = train_images / 255.0
-    test_images = test_images / 255.0
-    
-    # Convertir las etiquetas a formato one-hot
-    train_labels = to_categorical(train_labels)
-    test_labels = to_categorical(test_labels)
-    
-    return (train_images, train_labels), (test_images, test_labels)
+# Crear un directorio para guardar las imágenes si no existe
+UPLOAD_FOLDER = "uploaded_images"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Cargar los datos
-(train_images, train_labels), (test_images, test_labels) = load_data()
+def save_image(uploaded_file):
+    """Guarda la imagen subida en el directorio UPLOAD_FOLDER."""
+    file_path = os.path.join(UPLOAD_FOLDER, uploaded_file.name)
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    return file_path
 
-# Construir el modelo
-def create_model():
-    model = Sequential([
-        Flatten(input_shape=(28, 28)),  # Aplanar las imágenes de 28x28 a un vector de 784 elementos
-        Dense(128, activation='relu'),
-        Dense(10, activation='softmax')  # 10 clases de dígitos (0-9)
-    ])
-    
-    model.compile(optimizer='adam', 
-                  loss='categorical_crossentropy', 
-                  metrics=['accuracy'])
-    
+def load_model():
+    """Cargar el modelo y sus pesos desde el archivo model_weights.pkl."""
+    filename = 'model_trained_classifier.pkl.gz'
+    with gzip.open(filename, 'rb') as f:
+        model = pickle.load(f)
     return model
 
-# Inicializar el modelo
-model = create_model()
+def preprocess_image(image):
+    """Preprocesa la imagen para que sea compatible con el modelo."""
+    image = image.convert('L')  # Convertir a escala de grises
+    image = image.resize((28, 28))  # Redimensionar a 28x28
+    image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
+    image_array = image_array.reshape(1, 28, 28, 1)  # Convertir a la forma esperada por el modelo (1, 28, 28, 1)
+    return image_array
 
-# Entrenar el modelo
-def train_model():
-    model.fit(train_images, train_labels, epochs=5, batch_size=64, validation_split=0.2)
+def main():
+    # Estilos personalizados
+    st.markdown(
+        """
+        <style>
+        .main-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2E86C1;
+            text-align: center;
+        }
+        .description {
+            font-size: 18px;
+            color: #555555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .footer {
+            font-size: 14px;
+            color: #888888;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .hyperparameters-description {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-# Botón para entrenar el modelo
-if st.button('Entrenar Modelo'):
-    train_model()
-    st.success("¡Modelo entrenado exitosamente!")
+    # Título y descripción
+    st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
+    st.markdown('<div class="description">Sube una imagen de un dígito y la clasificaremos usando un modelo preentrenado.</div>', unsafe_allow_html=True)
 
-# Función para predecir y mostrar el resultado
-def predict_digit(image):
-    image = np.expand_dims(image, axis=0)  # Añadir la dimensión del batch
-    image = image / 255.0  # Normalizar la imagen
-    prediction = model.predict(image)
-    predicted_label = np.argmax(prediction)
-    return predicted_label
+    # Descripción de los hiperparámetros seleccionados
+    st.markdown('<div class="hyperparameters-description">**Hiperparámetros del modelo:** El modelo utiliza un Kernel Ridge regressor con un kernel radial (RBF) y un valor de regularización alpha de 0.1. El valor de alpha controla la fuerza de la regularización para evitar el sobreajuste, mientras que el kernel RBF (Radial Basis Function) es utilizado para manejar relaciones no lineales entre las características de entrada.</div>', unsafe_allow_html=True)
 
-# Mostrar una imagen aleatoria de prueba
-def display_random_image():
-    index = np.random.randint(0, test_images.shape[0])
-    image = test_images[index]
-    label = np.argmax(test_labels[index])
-    
-    fig, ax = plt.subplots()
-    ax.imshow(image, cmap='gray')
-    ax.set_title(f'Dígito Real: {label}')
-    ax.axis('off')
-    st.pyplot(fig)
-    
-    return image, label
+    # Widget de subida de archivos
+    uploaded_file = st.file_uploader("Selecciona una imagen (PNG, JPG, JPEG):", type=["png", "jpg", "jpeg"])
 
-# Botón para predecir un dígito
-if st.button('Predecir un Dígito'):
-    image, true_label = display_random_image()
-    predicted_label = predict_digit(image)
-    
-    # Mostrar la predicción
-    st.markdown(f'Predicción del modelo: {predicted_label}')
-    st.markdown(f'Dígito real: {true_label}')
-    
-    # Calcular la precisión
-    if predicted_label == true_label:
-        st.success("¡Predicción Correcta!")
-    else:
-        st.error("Predicción Incorrecta")
+    if uploaded_file is not None:
+        # Mostrar la imagen subida
+        st.subheader("Vista previa de la imagen subida")
+        image = Image.open(uploaded_file)
 
-# Información sobre el modelo y los datos
-st.sidebar.markdown("### Modelo de Red Neuronal para Predicción de Dígitos MNIST")
-st.sidebar.markdown("""
-    El modelo que utiliza esta aplicación es una red neuronal simple con una capa oculta de 128 neuronas. 
-    El conjunto de datos MNIST contiene imágenes de dígitos escritos a mano, que son usadas para entrenar el modelo. 
-    El modelo realiza la predicción de los dígitos a partir de las imágenes.
-""")
+        # Procesar la imagen
+        preprocessed_image = preprocess_image(image)
+
+        # Mostrar imágenes antes y después del preprocesamiento
+        st.subheader("Imágenes antes y después del preprocesamiento")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.image(image, caption="Imagen original", use_container_width=True, output_format="auto")
+        with col2:
+            st.image(preprocessed_image.reshape(28, 28), caption="Imagen preprocesada", use_container_width=True, output_format="auto")
+
+        # Guardar la imagen
+        file_path = save_image(uploaded_file)
+        st.success(f"Imagen guardada")
+
+        # Botón para clasificar la imagen
+        if st.button("Clasificar imagen"):
+            with st.spinner("Cargando modelo y clasificando..."):
+                model = load_model()
+                prediction = model.predict(preprocessed_image)
+                
+                # Extraer la clase con la mayor probabilidad
+                predicted_label = np.argmax(prediction)
+                st.success(f"La imagen fue clasificada como: {predicted_label}")
+
+    # Footer
+    st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
