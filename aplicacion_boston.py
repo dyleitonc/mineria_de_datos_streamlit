@@ -32,7 +32,7 @@ st.markdown(
 image = Image.open('casa.jpg')
 
 # Mostrar la imagen con un tamaño de ancho específico (por ejemplo, 500 píxeles)
-st.image(image, use_container_width=True, width=50)  # Ajusta el valor de width según sea necesario
+st.image(image, use_container_width=True, width=500)  # Ajusta el valor de width según sea necesario
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
@@ -86,8 +86,7 @@ if st.button('🚀 Predecir Valor de la Casa'):
         """,
         unsafe_allow_html=True
     )
-    
-    
+
 # Barra lateral con información adicional
 with st.sidebar:
     st.markdown("### Información Adicional")
@@ -103,28 +102,25 @@ with st.sidebar:
         - **RAD**: Índice de accesibilidad a autopistas.
         - **TAX**: Tasa de impuesto sobre la propiedad.
         - **PTRATIO**: Relación alumno-maestro.
-
-# Hiperparámetros como texto
-hiperparametros_texto = """
-**Hiperparámetros del escalador (StandardScaler):**
-- `scaler__copy: True`
-- `scaler__with_mean: True`
-- `scaler__with_std: True`
-
-**Hiperparámetros del regresor (KernelRidge):**
-- `reg__alpha: 0.1`
-- `reg__coef0: 1`
-- `reg__degree: 3`
-- `reg__gamma: None`
-- `reg__kernel: rbf`
-- `reg__kernel_params: None`
-"""
-
-# Sección que se puede expandir
-with st.expander("Ver hiperparámetros del modelo cargado"):
-    st.markdown(hiperparametros_texto)
-
         - **B**: Proporción de personas de ascendencia afroamericana.
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
-    # Mostrar los hiperparámetros en Streamlit
+
+    # Sección expandible con hiperparámetros
+    with st.expander("Ver hiperparámetros del modelo cargado"):
+        hiperparametros_texto = """
+        **Hiperparámetros del escalador (StandardScaler):**
+        - `scaler__copy: True`
+        - `scaler__with_mean: True`
+        - `scaler__with_std: True`
+
+        **Hiperparámetros del regresor (KernelRidge):**
+        - `reg__alpha: 0.1`
+        - `reg__coef0: 1`
+        - `reg__degree: 3`
+        - `reg__gamma: None`
+        - `reg__kernel: rbf`
+        - `reg__kernel_params: None`
+        """
+        st.markdown(hiperparametros_texto)
+
