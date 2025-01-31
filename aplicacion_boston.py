@@ -105,3 +105,7 @@ with st.sidebar:
         - **B**: Proporción de personas de ascendencia afroamericana.
         - **LSTAT**: Porcentaje de población de estatus bajo.
     """)
+    # Mostrar los hiperparámetros en Streamlit
+st.markdown("### Hiperparámetros del modelo cargado")
+st.write(loaded_model.get_params())
+
