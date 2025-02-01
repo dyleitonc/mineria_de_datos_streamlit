@@ -32,7 +32,7 @@ st.markdown(
 image = Image.open('casa.jpg')
 
 # Mostrar la imagen con un tamaño de ancho específico (por ejemplo, 500 píxeles)
-st.image(image, use_container_width=False, width=350)  # Ajusta el valor de width según sea necesario
+st.image(image, use_container_width=False, width=450)  # Ajusta el valor de width según sea necesario
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
