@@ -22,7 +22,7 @@ st.markdown(
         Predicción del Valor de una Casa
     </h1>
     <p style='text-align: center; font-size: 18px; color: #666;'>
-        Ingresa las características de la casa para obtener una estimación de su valor.
+        Ingresa las características de la casa para obtener una estimación de su valor:
     </p>
     """,
     unsafe_allow_html=True
