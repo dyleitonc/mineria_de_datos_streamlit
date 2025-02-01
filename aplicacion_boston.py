@@ -31,11 +31,19 @@ st.markdown(
 # Cargar la imagen
 image = Image.open('casa.jpg')
 
-# Usar Markdown con CSS para centrar la imagen
+# Usar st.markdown con HTML y CSS para centrar
 st.markdown(
-    "<div style='display: flex; justify-content: center;'>"
-    f"<img src='data:image/png;base64,{st.image(image, width=450)}' width='450'>"
-    "</div>",
+    """
+    <style>
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+    </style>
+    <div class="container">
+        <img src="data:image/png;base64,{}" width="450">
+    </div>
+    """.format(st.image(image, width=450)),
     unsafe_allow_html=True
 )
 
