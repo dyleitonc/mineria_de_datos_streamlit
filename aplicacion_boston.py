@@ -4,6 +4,8 @@ import numpy as np
 import gzip
 import pickle
 from PIL import Image
+import base64
+from io import BytesIO
 
 # Función para cargar el modelo comprimido
 def load_model():
@@ -30,9 +32,21 @@ st.markdown(
 
 # Cargar la imagen
 image = Image.open('casa.jpg')
+bufferd=BytesIO()
+image.save(buffered, format="JPEG")
+img_str=base64.b64encode(buffered.getvalue()).decode()
 
+st.markdown(
+    f"""
+    <div style="text-align: Center;">
+        <img src="data:image/jpeg;base64,{img_str}"width="450" />
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+        
 # Mostrar la imagen con un tamaño de ancho específico (por ejemplo, 500 píxeles)
-st.image(image, use_container_width=False, width=450)  # Ajusta el valor de width según sea necesario 
+#st.image(image, use_container_width=False, width=450)  # Ajusta el valor de width según sea necesario 
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
