@@ -30,7 +30,7 @@ def preprocess_image(image):
     image = image.convert('L')  # Convertir a escala de grises
     image = image.resize((28, 28))  # Redimensionar a 28x28
     image_array = img_to_array(image) / 255.0  # Normalizar los píxeles
-    image_array = image_array.reshape(1, 28, 28, 1)  # Convertir a la forma esperada por el modelo (1, 28, 28, 1)
+    image_array = image_array.reshape(1, -1)  # Convertir a vector de 784 características
     return image_array
 
 def main():
@@ -56,11 +56,6 @@ def main():
             text-align: center;
             margin-top: 50px;
         }
-        .hyperparameters-description {
-            font-size: 16px;
-            color: #333333;
-            margin-bottom: 20px;
-        }
         </style>
         """,
         unsafe_allow_html=True
@@ -69,9 +64,6 @@ def main():
     # Título y descripción
     st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
     st.markdown('<div class="description">Sube una imagen de un dígito y la clasificaremos usando un modelo preentrenado.</div>', unsafe_allow_html=True)
-
-    # Descripción de los hiperparámetros seleccionados
-    st.markdown('<div class="hyperparameters-description">**Hiperparámetros del modelo:** El modelo utiliza un Kernel Ridge regressor con un kernel radial (RBF) y un valor de regularización alpha de 0.1. El valor de alpha controla la fuerza de la regularización para evitar el sobreajuste, mientras que el kernel RBF (Radial Basis Function) es utilizado para manejar relaciones no lineales entre las características de entrada.</div>', unsafe_allow_html=True)
 
     # Widget de subida de archivos
     uploaded_file = st.file_uploader("Selecciona una imagen (PNG, JPG, JPEG):", type=["png", "jpg", "jpeg"])
@@ -96,15 +88,17 @@ def main():
         file_path = save_image(uploaded_file)
         st.success(f"Imagen guardada")
 
+        # Diccionario de clases para MNIST
+        mnist_classes = {i: str(i) for i in range(10)}
+
         # Botón para clasificar la imagen
         if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
                 prediction = model.predict(preprocessed_image)
                 
-                # Extraer la clase con la mayor probabilidad
-                predicted_label = np.argmax(prediction)
-                st.success(f"La imagen fue clasificada como: {predicted_label}")
+                # Verificar valores de predicción
+                st.success(f"La imagen fue clasificada como: {prediction}")
 
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
