@@ -33,6 +33,29 @@ def preprocess_image(image):
     image_array = image_array.reshape(1, -1)  # Convertir a vector de 784 características
     return image_array
 
+def display_model_parameters(model):
+    """Mostrar los hiperparámetros del modelo."""
+    hiperparametros = model.get_params()
+
+    descripcion_hiperparametros = f"""
+    ### Hiperparámetros del Modelo:
+
+    **Modelo KNN:**
+    - **`n_neighbors`**: {hiperparametros['steps'][1][1].get_params()['n_neighbors']}
+      - Número de vecinos más cercanos a considerar para la clasificación.
+    - **`p`**: {hiperparametros['steps'][1][1].get_params()['p']}
+      - Distancia de Minkowski, con p=3 (generalmente usado para espacios de alta dimensión).
+    - **`weights`**: {hiperparametros['steps'][1][1].get_params()['weights']}
+      - Definición del peso de los vecinos ('uniform' o 'distance').
+    - **`algorithm`**: {hiperparametros['steps'][1][1].get_params()['algorithm']}
+      - Algoritmo usado para encontrar los vecinos más cercanos: 'auto', 'ball_tree', 'kd_tree', o 'brute'.
+    - **`leaf_size`**: {hiperparametros['steps'][1][1].get_params()['leaf_size']}
+      - Controla el tamaño de la hoja en los árboles de búsqueda, afecta el rendimiento en modelos grandes.
+    """
+
+    with st.expander("Ver hiperparámetros del modelo"):
+        st.markdown(descripcion_hiperparametros)
+
 def main():
     # Estilos personalizados
     st.markdown(
@@ -98,7 +121,10 @@ def main():
                 prediction = model.predict(preprocessed_image)
                 
                 # Verificar valores de predicción
-                st.success(f"La imagen fue clasificada como: {prediction}")
+                st.success(f"La imagen fue clasificada como: {prediction[0]}")
+
+                # Mostrar hiperparámetros del modelo
+                display_model_parameters(model)
 
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
@@ -106,31 +132,3 @@ def main():
 if __name__ == "__main__":
     main()
 
- # Explicación de los hiperparámetros y sus valores
-    hiperparametros = model.get_params()
-
-    descripcion_hiperparametros = f"""
-    ### Hiperparámetros del Modelo:
-    
-    **Escalador (StandardScaler):**
-    - **`scaler__copy`**: {hiperparametros['steps'][0][1].get_params()['copy']}  
-      Esto asegura que no se modifique el conjunto de datos original durante el escalado.
-    - **`scaler__with_mean`**: {hiperparametros['steps'][0][1].get_params()['with_mean']}  
-      Indica si se debe centrar la variable al restarle la media (es útil para normalizar).
-    - **`scaler__with_std`**: {hiperparametros['steps'][0][1].get_params()['with_std']}  
-      Especifica si se debe dividir por la desviación estándar, lo que permite que los datos estén escalados.
-
-    **Regresor (KernelRidge):**
-    - **`reg__alpha`**: {hiperparametros['steps'][1][1].get_params()['alpha']}  
-      Es el parámetro de regularización que controla la complejidad del modelo: valores más altos previenen sobreajuste.
-    - **`reg__coef0`**: {hiperparametros['steps'][1][1].get_params()['coef0']}  
-      Este parámetro ajusta la influencia del término de sesgo en el modelo.
-    - **`reg__degree`**: {hiperparametros['steps'][1][1].get_params()['degree']}  
-      Define el grado del polinomio para el kernel, afectando la flexibilidad del modelo.
-    - **`reg__kernel`**: {hiperparametros['steps'][1][1].get_params()['kernel']}  
-      El kernel 'rbf' es utilizado para medir la similitud entre los puntos de datos en el espacio de características.
-    """
-
-    # Mostrar la descripción con los valores de los hiperparámetros
-    with st.expander("Ver hiperparámetros del modelo"):
-        st.markdown(descripcion_hiperparametros)
