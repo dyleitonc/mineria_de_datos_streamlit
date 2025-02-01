@@ -31,8 +31,13 @@ st.markdown(
 # Cargar la imagen
 image = Image.open('casa.jpg')
 
-# Mostrar la imagen con un tamaño de ancho específico (por ejemplo, 500 píxeles)
-st.image(image, use_container_width=False, width=450)  # Ajusta el valor de width según sea necesario 
+# Centrar la imagen con HTML y CSS
+st.markdown(
+    "<div style='text-align: center;'>"
+    "<img src='casa.jpg' width='450'>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
