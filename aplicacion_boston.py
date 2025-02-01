@@ -29,10 +29,23 @@ st.markdown(
 )
 
 # Cargar la imagen
-image = Image.open('casa.jpg')
+image = Image.open("casa.jpg")
 
-# Mostrar la imagen con un tamaño de ancho específico (por ejemplo, 500 píxeles)
-st.image(image, use_container_width=False, width=450)  # Ajusta el valor de width según sea necesario
+# HTML y CSS para centrar la imagen
+st.markdown(
+    """
+    <style>
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+    </style>
+    <div class="container">
+        <img src="data:image/png;base64,{}" width="450">
+    </div>
+    """.format(st.experimental_get_query_params()),  # Esto es un hack, la base64 se debe calcular antes
+    unsafe_allow_html=True
+)
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
