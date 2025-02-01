@@ -31,9 +31,13 @@ st.markdown(
 # Cargar la imagen
 image = Image.open('casa.jpg')
 
-# Centrar la imagen con Markdown y CSS
-st.markdown("<h1 style='text-align: center;'>🏡</h1>", unsafe_allow_html=True)  # Ícono opcional
-st.image(image, width=450)  # Ajusta el ancho según necesites
+# Usar Markdown con CSS para centrar la imagen
+st.markdown(
+    "<div style='display: flex; justify-content: center;'>"
+    f"<img src='data:image/png;base64,{st.image(image, width=450)}' width='450'>"
+    "</div>",
+    unsafe_allow_html=True
+)
 
 # Dividir las entradas en columnas
 col1, col2 = st.columns(2)
