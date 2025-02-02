@@ -61,7 +61,7 @@ def main():
     )
 
     # Mostrar una imagen de encabezado
-    #st.image("mnist_banner.jpg", use_column_width=True)
+    #st.image("mnist_banner.jpg", use_container_width=True)
 
     # Título y descripción
     st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
@@ -82,9 +82,9 @@ def main():
         st.subheader("Imágenes antes y después del preprocesamiento")
         col1, col2 = st.columns(2)
         with col1:
-            st.image(image, caption="Imagen original", use_column_width=True)
+            st.image(image, caption="Imagen original", use_container_width=True)
         with col2:
-            st.image(preprocessed_image.reshape(28, 28), caption="Imagen preprocesada", use_column_width=True)
+            st.image(preprocessed_image.reshape(28, 28), caption="Imagen preprocesada", use_container_width=True)
 
         # Guardar la imagen
         save_image(uploaded_file)
