@@ -99,23 +99,27 @@ def main():
     # Mostrar precisión del modelo
     model_accuracy = 0.8717
     st.markdown(f'<p style="font-size: 24px;">📊 Exactitud del modelo: <strong>{model_accuracy * 100:.2f}%</strong></p>', unsafe_allow_html=True)
-    
-    # Hiperparámetros del modelo
-    hiperparametros = {
-        'n_neighbors': 4,
-        'p': 3,
-        'metric': 'minkowski',
-        'weights': 'uniform'
-    }
-    
-    # Explicación de los hiperparámetros
-    st.markdown("### ⚙️ Hiperparámetros del Modelo")
-    st.markdown("Los hiperparámetros son configuraciones que afectan el rendimiento del modelo. Aquí explicamos algunos de ellos:")
-    st.markdown(f"- **Número de vecinos (`n_neighbors`)**: {hiperparametros['n_neighbors']} - Controla cuántos vecinos se usan para clasificar un nuevo dígito.")
-    st.markdown(f"- **Parámetro de distancia (`p`)**: {hiperparametros['p']} - Define cómo se mide la distancia entre imágenes. Un valor de 3 usa la distancia de Minkowski.")
-    st.markdown(f"- **Métrica (`metric`)**: {hiperparametros['metric']} - Define la fórmula matemática usada para calcular la similitud entre imágenes.")
-    st.markdown(f"- **Pesos (`weights`)**: {hiperparametros['weights']} - Indica si todos los vecinos tienen la misma importancia en la clasificación.")
-    
+
+    # Columna para los hiperparámetros
+    col1, col2 = st.columns([3, 1])  # Hacer la columna de los hiperparámetros más estrecha
+
+    with col2:
+        # Hiperparámetros del modelo
+        hiperparametros = {
+            'n_neighbors': 4,
+            'p': 3,
+            'metric': 'minkowski',
+            'weights': 'uniform'
+        }
+        
+        # Explicación de los hiperparámetros
+        st.markdown("### ⚙️ Hiperparámetros del Modelo")
+        st.markdown("Los hiperparámetros son configuraciones que afectan el rendimiento del modelo. Aquí explicamos algunos de ellos:")
+        st.markdown(f"- **Número de vecinos (`n_neighbors`)**: {hiperparametros['n_neighbors']} - Controla cuántos vecinos se usan para clasificar un nuevo dígito.")
+        st.markdown(f"- **Parámetro de distancia (`p`)**: {hiperparametros['p']} - Define cómo se mide la distancia entre imágenes. Un valor de 3 usa la distancia de Minkowski.")
+        st.markdown(f"- **Métrica (`metric`)**: {hiperparametros['metric']} - Define la fórmula matemática usada para calcular la similitud entre imágenes.")
+        st.markdown(f"- **Pesos (`weights`)**: {hiperparametros['weights']} - Indica si todos los vecinos tienen la misma importancia en la clasificación.")
+
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
 
