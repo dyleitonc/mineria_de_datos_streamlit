@@ -61,7 +61,7 @@ def main():
     )
 
     # Mostrar una imagen de encabezado
-    st.image("mnist_banner.jpg", use_column_width=True)
+    #st.image("mnist_banner.jpg", use_column_width=True)
 
     # Título y descripción
     st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
