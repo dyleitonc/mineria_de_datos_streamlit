@@ -65,21 +65,21 @@ def main():
 
     # Título y descripción
     st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
-    st.markdown('<div class="description">Sube una imagen de un dígito y la clasificaremos con un modelo de aprendizaje automático.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="description">Sube una imagen de un dígito y obtén la clasificación basada en un modelo previamente entrenado.</div>', unsafe_allow_html=True)
 
     # Barra lateral para los hiperparámetros
     with st.sidebar:
-        st.markdown("### ⚙️ Hiperparámetros del Modelo")
+        st.markdown("### Hiperparámetros del Modelo")
         hiperparametros = {
             'n_neighbors': 4,
             'p': 3,
             'metric': 'minkowski',
             'weights': 'uniform'
         }
-        st.markdown("Los hiperparámetros son configuraciones que afectan el rendimiento del modelo. Aquí explicamos algunos de ellos:")
-        st.markdown(f"- **Número de vecinos (`n_neighbors`)**: {hiperparametros['n_neighbors']} - Controla cuántos vecinos se usan para clasificar un nuevo dígito.")
-        st.markdown(f"- **Parámetro de distancia (`p`)**: {hiperparametros['p']} - Define cómo se mide la distancia entre imágenes. Un valor de 3 usa la distancia de Minkowski.")
-        st.markdown(f"- **Métrica (`metric`)**: {hiperparametros['metric']} - Define la fórmula matemática usada para calcular la similitud entre imágenes.")
+        st.markdown("Estos son los parámetros que influyen en el rendimiento del modelo:")
+        st.markdown(f"- **Número de vecinos (`n_neighbors`)**: {hiperparametros['n_neighbors']} - Determina cuántos vecinos se toman en cuenta al clasificar una imagen.")
+        st.markdown(f"- **Parámetro de distancia (`p`)**: {hiperparametros['p']} - Especifica el tipo de distancia utilizada para comparar las imágenes.")
+        st.markdown(f"- **Métrica (`metric`)**: {hiperparametros['metric']} - Define el método para medir la similitud entre imágenes.")
         st.markdown(f"- **Pesos (`weights`)**: {hiperparametros['weights']} - Indica si todos los vecinos tienen la misma importancia en la clasificación.")
 
     # Widget de subida de archivos
@@ -105,7 +105,7 @@ def main():
         save_image(uploaded_file)
         
         # Botón para clasificar la imagen
-        if st.button("🔍 Clasificar imagen"):
+        if st.button("Clasificar imagen"):
             with st.spinner("Cargando modelo y clasificando..."):
                 model = load_model()
                 prediction = model.predict(preprocessed_image)
@@ -113,7 +113,7 @@ def main():
     
     # Mostrar precisión del modelo
     model_accuracy = 0.8717
-    st.markdown(f'<p style="font-size: 24px;">📊 Exactitud del modelo: <strong>{model_accuracy * 100:.2f}%</strong></p>', unsafe_allow_html=True)
+    st.markdown(f'<p style="font-size: 24px;">Exactitud del modelo: <strong>{model_accuracy * 100:.2f}%</strong></p>', unsafe_allow_html=True)
 
     # Footer
     st.markdown('<div class="footer">© 2025 - Clasificación de imágenes con Streamlit</div>', unsafe_allow_html=True)
