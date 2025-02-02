@@ -68,7 +68,7 @@ def main():
     with st.sidebar:
         st.markdown("### ⚙️ Hiperparámetros del Modelo")
         hiperparametros = {
-            'n_neighbors': 4,
+            'n_neighbors': 6,
             'p': 3,
             'metric': 'minkowski',
             'weights': 'uniform'
@@ -111,7 +111,7 @@ def main():
                 st.success(f"La imagen fue clasificada como: {prediction}")
     
     # Mostrar precisión del modelo
-    model_accuracy = 0.8717
+    model_accuracy = 0.8782
     st.markdown(f'<p style="font-size: 24px;">📊 Exactitud del modelo: <strong>{model_accuracy * 100:.2f}%</strong></p>', unsafe_allow_html=True)
 
     # Footer
