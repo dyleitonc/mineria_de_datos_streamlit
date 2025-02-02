@@ -62,7 +62,7 @@ def main():
 
     # Título y descripción
     st.markdown('<div class="main-title">Clasificación de Dígitos MNIST</div>', unsafe_allow_html=True)
-    st.markdown('<div class="description">Sube una imagen de un dígito y obtén la clasificación basada en un modelo previamente entrenado.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="description">Sube una imagen de un dígito y obtén la clasificación basada en un modelo previamente entrenado:</div>', unsafe_allow_html=True)
 
     # Barra lateral para los hiperparámetros
     with st.sidebar:
