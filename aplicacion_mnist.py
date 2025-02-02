@@ -98,7 +98,7 @@ def main():
     
     # Mostrar precisión del modelo
     model_accuracy = 0.8717
-    st.markdown(f"### 📊 Exactitud del modelo: **{model_accuracy * 100:.2f}%**")
+    st.markdown(f'<p style="font-size: 24px;">📊 Exactitud del modelo: <strong>{model_accuracy * 100:.2f}%</strong></p>', unsafe_allow_html=True)
     
     # Hiperparámetros del modelo
     hiperparametros = {
