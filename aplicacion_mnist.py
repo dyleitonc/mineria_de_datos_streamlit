@@ -69,7 +69,7 @@ def main():
         st.markdown("### ⚙️ Hiperparámetros del Modelo")
         hiperparametros = {
             'n_neighbors': 6,
-            'p': 3,
+            'p': 10,
             'metric': 'minkowski',
             'weights': 'uniform'
         }
