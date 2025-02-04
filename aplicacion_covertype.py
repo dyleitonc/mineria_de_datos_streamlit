@@ -9,7 +9,7 @@ from io import BytesIO
 
 # Función para cargar el modelo comprimido
 def load_model():
-    filename = "modelo_entrenado (2).pkl.gz"
+    filename = "model_trained_clasificador.pkl.gz"
     with gzip.open(filename, 'rb') as f:
         model = pickle.load(f)
     return model
