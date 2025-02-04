@@ -31,20 +31,20 @@ st.markdown(
 )
 
 # Cargar la imagen
-image = Image.open("forest.jpg")
-buffered = BytesIO()
-image.save(buffered, format="JPEG")
-img_str = base64.b64encode(buffered.getvalue()).decode()
+#image = Image.open("forest.jpg")
+#buffered = BytesIO()
+#image.save(buffered, format="JPEG")
+#img_str = base64.b64encode(buffered.getvalue()).decode()
 
 # Mostrar la imagen centrada en HTML
-st.markdown(
-    f"""
-    <div style="display: flex; justify-content: center;">
-        <img src="data:image/jpeg;base64,{img_str}" width="450" />
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+#st.markdown(
+   # f"""
+   # <div style="display: flex; justify-content: center;">
+      #  <img src="data:image/jpeg;base64,{img_str}" width="450" />
+   # </div>
+    #""",
+   # unsafe_allow_html=True
+#)
 
 # Dividir las entradas en columnas (ajustar según las características del dataset)
 col1, col2 = st.columns(2)
